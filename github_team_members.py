@@ -25,6 +25,13 @@ class LookupModule(LookupBase):
 
         g = Github(api_key)
 
+        if api_key is None:
+            raise AnsibleError("No Github API key given in parameters")
+        if github_team is None:
+            raise AnsibleError("No Github Team name given in parameters")
+        if github_org is None:
+            raise AnsibleError("No Github Organization name given in parameters")
+
         try:
             teams = {team.slug: team for team in g.get_organization(github_org).get_teams()}
         except Exception as e:
